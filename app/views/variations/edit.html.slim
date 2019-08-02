@@ -35,7 +35,7 @@
           .level.is-mobile
             .level-left
               .level-item
-                = link_to variation_path(f.object), method: :delete, data: { confirm: "Are you sure?"}, class: "button is-danger is-outlined" do
+                = link_to variation_path(f.object), method: :delete, data: { confirm: "Are you sure want to delete “#{f.object.label}”?"}, class: "button is-danger is-outlined" do
                   = "Delete"
             .level-right
               .level-item

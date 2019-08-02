@@ -8,6 +8,8 @@ html
 
     meta name="viewport" content="width=device-width, initial-scale=1"
 
+    link href="https://fonts.googleapis.com/css?family=Aclonica&display=swap" rel="stylesheet"
+
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
@@ -17,7 +19,7 @@ html
           .level-left
             .level-item
               a.has-text-dark href=root_url
-                h1
+                h1.brand
                   | DAILY
           .level-right
             .level-item
