@@ -96,10 +96,14 @@
         - else
           em None
                 
-    - if params[:range] == 'today'
-      = link_to new_variation_url(recurring: false), class: 'button is-info is-large is-fullwidth' do
-        | New&nbsp;<strong>one-time</strong>&nbsp;spending
-    - elsif params[:range] == 'this-month'
-      = link_to new_variation_url(recurring: true), class: 'button is-info is-large is-fullwidth' do
-        | New&nbsp;<strong>recurring</strong>&nbsp;spending
-
+    .content.has-text-centered#add-button-container
+      - if params[:range] == 'today'
+        = link_to new_variation_url(recurring: false), class: 'button is-info is-medium' do
+          | Add&nbsp;<strong>one-time</strong>&nbsp;spending
+          span.icon.is-mall
+            i.fas.fa-receipt
+      - elsif params[:range] == 'this-month'
+        = link_to new_variation_url(recurring: true), class: 'button is-info is-medium' do
+          | Add&nbsp;<strong>recurring</strong>&nbsp;payment
+          span.icon.is-mall
+            i.fas.fa-file-contract

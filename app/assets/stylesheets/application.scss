@@ -72,9 +72,9 @@ header#topbar {
 
 @include mobile {
   #variations-index {
-    margin-top: 16px;
+    margin-top: 0px;
     > .container {
-      padding: 0 16px 16px 16px;
+      padding: 0 16px 80px 16px;
       width: 100%;
     }
   }
@@ -86,6 +86,15 @@ header#topbar {
     .modal-card-foot {
       border-radius: 0;
     }
+  }
+  #add-button-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 16px;
+    background-color: white;
+    border-top: 1px solid #eee;
   }
 }
 

@@ -9,7 +9,7 @@
         header.modal-card-head
           p.modal-card-title
             - if params[:recurring] == 'true'
-              | New <strong>recurring</strong> spending
+              | New <strong>recurring</strong> payment
             - else
               | New <strong>one-time</strong> spending
         section.modal-card-body
@@ -17,7 +17,7 @@
             .notification.is-danger= flash[:error]
           .field
             label.label
-              | Give this spending a short and meaningful name
+              | Give this payment a short and meaningful name
             .control
               = f.text_field :label, placeholder: "Restaurant", class: 'input is-large is-info', required: true, list: 'label-list'
               - if params[:recurring] == 'false'
