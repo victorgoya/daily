@@ -55,7 +55,7 @@
                 button.button.is-info= "Save and continue"
 
 #variations-index
-  .tabs.is-centered.is-large
+  .tabs.is-centered.is-medium
     ul
       = active_link_to "Today", variations_range_path(range: "today"), class_active: 'is-active', wrap_tag: :li
       = active_link_to "This month", variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
@@ -64,10 +64,10 @@
     .tags.is-centered
       - if params[:range] == 'today'
         .tag class="is-large #{current_daily_budget < 0 && 'is-danger'}"
-          = Money.new(current_daily_budget * 100, @current_user.currency).format + " remaining today"
+          = format_value(current_daily_budget) + " remaining today"
       - else
         .tag class="is-large #{current_monthly_budget < 0 && 'is-danger'}"
-          = Money.new(current_monthly_budget * 100, @current_user.currency).format + " remaining this month"
+          = format_value(current_monthly_budget) + " remaining this month"
     - [true, false].each do |recurring|
       .content
         h3= "#{recurring ? 'Recurring' : 'One time'} spendings"
@@ -81,18 +81,18 @@
                 .level-item
                   - if (params[:range] == 'this-month' && recurring) || (params[:range] == 'today' && !recurring) || variation.base?
                     a href=edit_variation_path(variation)
-                      strong= Money.new((params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value) * 100, @current_user.currency).format
+                      strong= format_value(params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value)
                       span.icon
                         i.fas.fa-edit
                   - else
-                    strong= Money.new((params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value) * 100, @current_user.currency).format
+                    strong= format_value(params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value)
           .level.variation-level.is-total.is-mobile
             .level-left
               .level-item
                 = "Total"
             .level-right
               .level-item
-                strong= Money.new((@variations.where(recurring: recurring).map { |v| params[:range] == 'this-month' ? v.monthly_value : v.daily_value }.sum) * 100, @current_user.currency).format
+                strong= format_value(@variations.where(recurring: recurring).map { |v| params[:range] == 'this-month' ? v.monthly_value : v.daily_value }.sum)
         - else
           em None
                 
