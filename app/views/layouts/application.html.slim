@@ -40,10 +40,19 @@ html
                   | DAILY
           .level-left
             .level-item
-              = Time.now.strftime("%B")
+              .tags
+                - if saved_this_month > 0
+                  .tag.is-success
+                    = "#{format_value(saved_this_month)} saved"
+                - else
+                  .tag.is-danger
+                    = "#{format_value(saved_this_month.abs)} overspent"
           .level-right
             .level-item
-              = link_to edit_user_path(@current_user), class: 'button is-rounded is-info' do
-                | Settings
+              = link_to edit_user_path(@current_user), class: 'button is-rounded' do
+                span.is-hidden-mobile
+                  | Settings
+                span.icon.is-hidden-tablet.is-marginless
+                  i.fas.fa-cog
 
     = yield

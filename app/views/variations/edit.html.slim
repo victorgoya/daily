@@ -14,7 +14,7 @@
             .notification.is-danger= flash[:error]
           .field
             label.label
-              | Give this spending a short and meaningful name
+              | Give it a short and meaningful name
             .control
               = f.text_field :label, placeholder: "Restaurant", class: 'input is-large is-info', required: true
           - if params[:recurring] == 'false'
@@ -35,8 +35,9 @@
           .level.is-mobile
             .level-left
               .level-item
-                = link_to variation_path(f.object), method: :delete, data: { confirm: "Are you sure want to delete “#{f.object.label}”?"}, class: "button is-danger is-outlined" do
-                  = "Delete"
+                - unless f.object.base
+                  = link_to variation_path(f.object), method: :delete, data: { confirm: "Are you sure want to delete “#{f.object.label}”?"}, class: "button is-danger is-outlined" do
+                    = "Delete"
             .level-right
               .level-item
                 = link_to "Cancel", variations_range_path(range: (f.object.recurring || f.object.base) ? 'this-month' : 'today'), class: "button"

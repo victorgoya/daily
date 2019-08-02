@@ -58,19 +58,19 @@
   .tabs.is-centered.is-medium
     ul
       = active_link_to "Today", variations_range_path(range: "today"), class_active: 'is-active', wrap_tag: :li
-      = active_link_to "This month", variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
+      = active_link_to Time.now.strftime("%B"), variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
 
   .container
     .tags.is-centered
       - if params[:range] == 'today'
         .tag class="is-large #{current_daily_budget < 0 && 'is-danger'}"
-          = format_value(current_daily_budget) + " remaining today"
+          = format_value(current_daily_budget) + " remaining"
       - else
         .tag class="is-large #{current_monthly_budget < 0 && 'is-danger'}"
-          = format_value(current_monthly_budget) + " remaining this month"
+          = format_value(current_monthly_budget) + " remaining"
     - [true, false].each do |recurring|
       .content
-        h3= "#{recurring ? 'Recurring' : 'One time'} spendings"
+        h5= recurring ? 'Recurring payments' : 'Spendings'
         - if @variations.where(recurring: recurring).any?
           - @variations.where(recurring: recurring).each do |variation|
             .level.variation-level.is-mobile
@@ -99,11 +99,11 @@
     .content.has-text-centered#add-button-container
       - if params[:range] == 'today'
         = link_to new_variation_url(recurring: false), class: 'button is-info is-medium' do
-          | Add&nbsp;<strong>one-time</strong>&nbsp;spending
+          | Add&nbsp;<strong>spending</strong>
           span.icon.is-mall
             i.fas.fa-receipt
       - elsif params[:range] == 'this-month'
         = link_to new_variation_url(recurring: true), class: 'button is-info is-medium' do
-          | Add&nbsp;<strong>recurring</strong>&nbsp;payment
+          | Add&nbsp;<strong>recurring payment</strong>
           span.icon.is-mall
             i.fas.fa-file-contract
