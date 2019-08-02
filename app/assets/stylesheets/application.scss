@@ -43,6 +43,14 @@ html, body {
   flex: 1;
 }
 
+header#topbar {
+  padding: 16px;
+  h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+}
+
 #variations-index {
   margin-top: 64px;
   display: flex;
@@ -61,4 +69,41 @@ html, body {
     }
   }
 }
+
+@include mobile {
+  #variations-index {
+    margin-top: 16px;
+    > .container {
+      padding: 0 16px 16px 16px;
+      width: 100%;
+    }
+  }
+  .modal-card {
+    min-height: 100vh;
+    .modal-card-head {
+      border-radius: 0;
+    }
+    .modal-card-foot {
+      border-radius: 0;
+    }
+  }
+}
+
+@include tablet {
+  #variations-index {
+    > .container {
+      width: 80%;
+    }
+  }
+}
+
+
+@include desktop {
+  #variations-index {
+    > .container {
+      width: 640px;
+    }
+  }
+}
+
 
