@@ -1,0 +1,42 @@
+  = form_for Variation.new(user: @current_user, base: false, recurring: params[:recurring] == 'true') do |f|
+    = f.hidden_field :base, { value: f.object.base }
+    = f.hidden_field :user_id, { value: f.object.user.id }
+    = f.hidden_field :recurring, { value: f.object.recurring }
+
+    .modal.is-active
+      .modal-background
+      .modal-card
+        header.modal-card-head
+          p.modal-card-title
+            - if params[:recurring] == 'true'
+              | New <strong>recurring</strong> spending
+            - else
+              | New <strong>one-time</strong> spending
+        section.modal-card-body
+          - if flash[:error].present?
+            .notification.is-danger= flash[:error]
+          .field
+            label.label
+              | Give this spending a short and meaningful name
+            .control
+              = f.text_field :label, placeholder: "Restaurant", class: 'input is-large is-info', required: true
+          - if params[:recurring] == 'false'
+            .content
+              .tags.are-large
+                - @current_user.variations.where(base: false, recurring: false).pluck(:label).uniq.each do |label|
+                  span.tag.is-info.is-link.is-medium= label
+          .field
+            label.label
+              - if params[:recurring] == 'false'
+                | What amount did you spent?
+              - else
+                | What amount is spend every month?
+            .control
+              = f.number_field :value, placeholder: "20", class: 'input is-large  is-info', required: true
+        footer.modal-card-foot
+          .level.is-mobile
+            .level-left
+            .level-right
+              .level-item
+                = link_to "Cancel", variations_range_path(range: (f.object.recurring || f.object.base) ? 'this-month' : 'today'), class: "button"
+                button.button.is-info= "Save and continue"

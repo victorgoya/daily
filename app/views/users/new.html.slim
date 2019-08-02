@@ -1,0 +1,10 @@
+#users-new
+  .hero.is-dark.is-medium.is-bold
+    .hero-body
+      .container
+        .level.is-mobile
+          .level-left
+            h1.title
+              | DAILY
+          .level-right
+            = google_sign_in_button '', proceed_to: create_user_url, id: "sign-in-button"

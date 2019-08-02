@@ -1,0 +1,105 @@
+- if @current_user.monthly_budget.blank?
+  = form_for @current_user do |f|
+    .modal.is-active
+      .modal-background
+      .modal-card
+        header.modal-card-head
+          p.modal-card-title Hello #{@current_user.name}! Welcome to <strong>Daily</strong>.
+        section.modal-card-body
+          .content.is-medium
+            p
+              | First we need to know <strong>your monthly maximum budget</strong>. This budget can already take your fixed costs like your rent, taxes and subscriptions into consideration or you can add them in <strong>Daily</strong> later.
+          .field
+            label.label
+              | Monthly budget
+            .control
+              = f.number_field :monthly_budget, placeholder: "1200", class: 'input is-large is-info', required: true
+          .field
+            label.label
+              | Currency
+            .control
+              .select.is-large.is-fullwidth
+                = f.select :currency, Money::Currency.all.map { |c| ["#{c.name} (#{c.symbol})", c.iso_code] }
+
+        footer.modal-card-foot
+          .level.is-mobile
+            .level-left
+            .level-right
+              .level-item
+                button.button.is-info= "Save and continue"
+
+- elsif @current_user.base_variation.blank?
+  = form_for Variation.new(user: @current_user, base: true) do |f|
+    .modal.is-active
+      .modal-background
+      .modal-card
+        header.modal-card-head
+          p.modal-card-title
+            | Just one more thing!
+        section.modal-card-body
+          .content.is-medium
+            - if flash[:error].present?
+              .notification.is-danger= flash[:error]
+            p We need to know <strong>how much you already spent this month</strong>. This way we can already show you how much you saved (or not) based on your monthly budget.
+          .field
+            .control
+              = f.hidden_field :user_id, { value: f.object.user.id }
+              = f.hidden_field :base, { value: f.object.base }
+              = f.hidden_field :label, { value: 'Already spent this month' }
+              = f.number_field :value, placeholder: "200", class: 'input is-large is-info', required: true
+        footer.modal-card-foot
+          .level.is-mobile
+            .level-left
+            .level-right
+              .level-item
+                button.button.is-info= "Save and continue"
+
+#variations-index
+  .tabs.is-centered.is-large
+    ul
+      = active_link_to "Today", variations_range_path(range: "today"), class_active: 'is-active', wrap_tag: :li
+      = active_link_to "This month", variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
+
+  .container
+    .tags.is-centered
+      - if params[:range] == 'today'
+        .tag class="is-large #{current_daily_budget < 0 && 'is-danger'}"
+          = Money.new(current_daily_budget * 100, @current_user.currency).format + " remaining today"
+      - else
+        .tag class="is-large #{current_monthly_budget < 0 && 'is-danger'}"
+          = Money.new(current_monthly_budget * 100, @current_user.currency).format + " remaining this month"
+    - [true, false].each do |recurring|
+      .content
+        h3= "#{recurring ? 'Recurring' : 'One time'} spendings"
+        - if @variations.where(recurring: recurring).any?
+          - @variations.where(recurring: recurring).each do |variation|
+            .level.variation-level.is-mobile
+              .level-left
+                .level-item
+                  = variation.label
+              .level-right
+                .level-item
+                  - if (params[:range] == 'this-month' && recurring) || (params[:range] == 'today' && !recurring) || variation.base?
+                    a href=edit_variation_path(variation)
+                      strong= Money.new((params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value) * 100, @current_user.currency).format
+                      span.icon
+                        i.fas.fa-edit
+                  - else
+                    strong= Money.new((params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value) * 100, @current_user.currency).format
+          .level.variation-level.is-total.is-mobile
+            .level-left
+              .level-item
+                = "Total"
+            .level-right
+              .level-item
+                strong= Money.new((@variations.where(recurring: recurring).map { |v| params[:range] == 'this-month' ? v.monthly_value : v.daily_value }.sum) * 100, @current_user.currency).format
+        - else
+          em None
+                
+    - if params[:range] == 'today'
+      = link_to new_variation_url(recurring: false), class: 'button is-info is-large is-fullwidth' do
+        | New&nbsp;<strong>one-time</strong>&nbsp;spending
+    - elsif params[:range] == 'this-month'
+      = link_to new_variation_url(recurring: true), class: 'button is-info is-large is-fullwidth' do
+        | New&nbsp;<strong>recurring</strong>&nbsp;spending
+

@@ -1,0 +1,64 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+@import "font-awesome-sprockets";
+@import "font-awesome";
+@import "bulma";
+
+html, body {
+  height: 100%;
+}
+
+#users-new {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+#sign-in-button {
+  border: none;
+  background-image: image-url("sign_in_with_google.png");
+  background-size: contain;
+  background-color: transparent;
+  width: 191px;
+  height: 46px;
+  cursor: pointer;
+}
+
+.modal-card-foot > .level {
+  flex: 1;
+}
+
+#variations-index {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-item: center;
+
+  .level.variation-level {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    margin-bottom: 0;
+    
+    &.is-total {
+      border-top: 1px solid #333;
+      margin-top: 8px;
+    }
+  }
+}
+

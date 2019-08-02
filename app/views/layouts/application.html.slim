@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title
+      | Daily
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    meta name="viewport" content="width=device-width, initial-scale=1"
+
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    - if @current_user.present?
+      .navbar.is-mobile role="navigation" aria-label="main navigation"
+        .navbar-brand
+          a.navbar-item href=root_url
+            strong
+              | DAILY
+        .navbar-end
+          .navbar-item
+            = link_to edit_user_path(@current_user), class: 'button is-rounded is-info' do
+              | Settings
+
+    = yield

@@ -1,0 +1,47 @@
+  = form_for @current_user do |f|
+    = f.hidden_field :id, { value: f.object.id }
+
+    .modal.is-active
+      .modal-background
+      .modal-card
+        header.modal-card-head
+          p.modal-card-title
+            | #{@current_user.name}'s <strong>settings</strong>
+        section.modal-card-body
+          - if flash[:error].present?
+            .notification.is-danger= flash[:error]
+
+          .field
+            label.label
+              | Monthly budget
+            .control
+              = f.number_field :monthly_budget, placeholder: "1200", class: 'input is-large is-info', required: true
+
+          .field
+            label.label
+              | Currency
+            .control
+              .select.is-large.is-fullwidth
+                = f.select :currency, Money::Currency.all.map { |c| ["#{c.name} (#{c.symbol})", c.iso_code] }
+
+        footer.modal-card-foot
+          .level.is-mobile
+            .level-left
+              .dropdown.is-hoverable.is-up
+                .dropdown-trigger
+                  a.button aria-haspopup="true" aria-controls="account-menu"
+                    span
+                      | Account
+                    span.icon.is-small
+                      i.fas.fa-angle-down aria-hidden="true"
+                .dropdown-menu id="account-menu" role="menu"
+                  .dropdown-content
+                    = link_to user_path(@current_user), class: "dropdown-item has-text-danger", method: :delete, data: { confirm: "Are you sure you want to delete your account?"} do
+                      | Delete account
+                    .dropdown-divider
+                    = link_to logout_path, class: "dropdown-item", method: :post do
+                      | Sign out
+            .level-right
+              .level-item
+                = link_to "Cancel", root_url, class: "button"
+                button.button.is-info= "Save and continue"
