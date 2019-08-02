@@ -38,6 +38,9 @@ html
               a.has-text-dark href=root_url
                 h1.brand
                   | DAILY
+          .level-left
+            .level-item
+              = Time.now.strftime("%B")
           .level-right
             .level-item
               = link_to edit_user_path(@current_user), class: 'button is-rounded is-info' do
