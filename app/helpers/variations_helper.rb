@@ -13,6 +13,12 @@ module VariationsHelper
   end
 
   def saved_this_month
-    @saved_this_month ||= @current_user.daily_budget * (Time.now.day - 1) - @current_user.variations.from_this_month.map(&:daily_value).sum
+    return @saved_this_month if @saved_this_month
+
+    remaining_monthly_budget = @current_user.monthly_budget - @current_user.variations.from_this_month.where(recurring: true).map(&:monthly_value).sum
+    cumulated_daily_budget = remaining_monthly_budget / Time.now.end_of_month.day * (Time.now.day - 1)
+    cumulated_daily_spendings = @current_user.variations.from_this_month.where(recurring: false).map(&:daily_value).sum
+
+    @saved_this_month ||= cumulated_daily_budget - cumulated_daily_spendings
   end
 end
