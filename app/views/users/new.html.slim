@@ -4,10 +4,14 @@
       .container
         .level.is-mobile
           .level-left
-            h1.title.brand
-              | DAILY
+            .level-item
+              .content
+                h1.title.brand
+                  | DAILY
+                #service-description
+                  | Simple <strong>day-by-day</strong> budget management
           .level-right
-            .content
+            .content.has-text-white
               = google_sign_in_button '', proceed_to: create_user_url, id: "sign-in-button"
               #info-links
                 = link_to privacy_policy_path, class: 'button is-small is-outlined is-inverted is-dark' do
