@@ -18,10 +18,12 @@ class ApplicationController < ActionController::Base
 
   def redirect_if_not_signed_in
     if current_user.blank?
-      return if params[:controller] == 'users' && params[:action] == 'new'
+      return if params[:controller] == 'users' && (params[:action] == 'new' || params[:action] == 'create')
       return if params[:controller] == 'pages'
 
       redirect_to new_user_url
+    elsif params[:controller] == 'users' && (params[:action] == 'new' || params[:action] == 'create')
+      redirect_to root_url
     end
   end
 end
