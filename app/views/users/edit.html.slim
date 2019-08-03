@@ -36,6 +36,11 @@
                       i.fas.fa-angle-down aria-hidden="true"
                 .dropdown-menu id="account-menu" role="menu"
                   .dropdown-content
+                    = link_to privacy_policy_path, class: "dropdown-item" do
+                      | Privacy policy
+                    = link_to terms_and_conditions_path, class: "dropdown-item" do
+                      | Terms and conditions
+                    .dropdown-divider
                     = link_to user_path(@current_user), class: "dropdown-item has-text-danger", method: :delete, data: { confirm: "Are you sure you want to delete your account?"} do
                       | Delete account
                     .dropdown-divider

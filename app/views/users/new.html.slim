@@ -7,4 +7,10 @@
             h1.title.brand
               | DAILY
           .level-right
-            = google_sign_in_button '', proceed_to: create_user_url, id: "sign-in-button"
+            .content
+              = google_sign_in_button '', proceed_to: create_user_url, id: "sign-in-button"
+              #info-links
+                = link_to privacy_policy_path, class: 'button is-small is-outlined is-inverted is-dark' do
+                  | Privacy policy
+                = link_to terms_and_conditions_path, class: 'button is-small is-outlined is-inverted is-dark' do
+                  | Terms and conditions

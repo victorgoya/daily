@@ -1,0 +1,25 @@
+.modal.is-active
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title
+        | <strong class="brand">Daily</strong>'s privacy policy
+    section.modal-card-body
+      .content
+        p
+          | The following information are the only one we store:
+          ul
+            li Your name and Google ID after your sign up with Google.
+            li Your list of spendings and recurring payments
+            li A single identification cookie
+        p
+          | Your information is not shared or sell to third parties
+        p
+          | We do not keep any information about you when you delete your account.
+
+    footer.modal-card-foot
+      .level.is-mobile
+        .level-left
+        .level-right
+          .level-item
+            = link_to "Close", root_url, class: "button"

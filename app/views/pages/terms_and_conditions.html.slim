@@ -1,0 +1,21 @@
+.modal.is-active
+  .modal-background
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title
+        | <strong class="brand">Daily</strong>'s terms and conditions
+    section.modal-card-body
+      .content
+        p
+          | You agree not to use the service for anything illegal
+        p
+          | We reserve the right to remove your account for any reason or no reason
+        p
+          | We do not provide any guarantee of accuracy or against data loss
+
+    footer.modal-card-foot
+      .level.is-mobile
+        .level-left
+        .level-right
+          .level-item
+            = link_to "Close", root_url, class: "button"

@@ -76,6 +76,14 @@ header#topbar {
   }
 }
 
+#info-links {
+  text-align: center;
+  & > a.button {
+    display: block;
+    margin-top: 4px;
+  }
+}
+
 @include mobile {
   #variations-index {
     margin-top: 0px;
