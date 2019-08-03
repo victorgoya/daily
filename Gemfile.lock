@@ -53,6 +53,9 @@ GEM
     bindex (0.8.1)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
+    browser-timezone-rails (1.1.0)
+      js_cookie_rails
+      rails (>= 3.1)
     builder (3.2.3)
     bulma-rails (0.7.2)
       sass (~> 3.2)
@@ -103,6 +106,8 @@ GEM
     io-like (0.3.0)
     jbuilder (2.9.1)
       activesupport (>= 4.2.0)
+    js_cookie_rails (2.2.0)
+      railties (>= 3.1)
     jwt (2.2.1)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -244,6 +249,7 @@ PLATFORMS
 DEPENDENCIES
   active_link_to
   bootsnap (>= 1.1.0)
+  browser-timezone-rails
   bulma-rails
   byebug
   capybara (>= 2.15)

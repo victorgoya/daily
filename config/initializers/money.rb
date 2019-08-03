@@ -4,3 +4,5 @@ MoneyRails.configure do |config|
   }
 end
 
+Money.locale_backend = :currency
+

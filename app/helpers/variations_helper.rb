@@ -9,7 +9,7 @@ module VariationsHelper
 
   def format_value(value)
     money = Money.new(value * 100, @current_user.currency)
-    money.format(symbol_position: money.currency.to_s === "EUR" ? :after : :before)
+    money.format(format: money.currency.to_s === "EUR" ? "%n %u" : "%u%n")
   end
 
   def saved_this_month
