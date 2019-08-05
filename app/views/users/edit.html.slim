@@ -23,6 +23,11 @@
             .control
               .select.is-large.is-fullwidth
                 = f.select :currency, Money::Currency.all.map { |c| ["#{c.name} (#{c.symbol})", c.iso_code] }
+          .field
+            label.label
+              | Current timezone
+            .control
+              = text_field_tag :timezone, Time.zone, disabled: true, class: 'input is-large is-info'
 
         footer.modal-card-foot
           .level.is-mobile

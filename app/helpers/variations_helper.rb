@@ -17,7 +17,7 @@ module VariationsHelper
 
     remaining_monthly_budget = @current_user.monthly_budget - @current_user.variations.from_this_month.where(recurring: true).map(&:monthly_value).sum
     cumulated_daily_budget = remaining_monthly_budget / Time.now.end_of_month.day * (Time.now.day - 1)
-    cumulated_daily_spendings = @current_user.variations.from_this_month.where(recurring: false).map(&:daily_value).sum
+    cumulated_daily_spendings = @current_user.variations.from_this_month.where(recurring: false).where("variations.created_at < ?", Time.now.beginning_of_day).map(&:daily_value).sum
 
     @saved_this_month ||= cumulated_daily_budget - cumulated_daily_spendings
   end
