@@ -58,7 +58,7 @@
   .tabs.is-centered.is-medium
     ul
       = active_link_to "Today", variations_range_path(range: "today"), class_active: 'is-active', wrap_tag: :li
-      = active_link_to Time.now.strftime("%B"), variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
+      = active_link_to Time.zone.now.strftime("%B"), variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
 
   .container
     .tags.is-centered
