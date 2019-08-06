@@ -4,7 +4,7 @@ class UsersController < ApplicationController
 
   def create
     if user = authenticate_with_google
-      cookies.signed[:user_id] = user.id
+      cookies.signed[:user_id] = { value: user.id, expires: 1.year.from_now }
       redirect_to root_url
     else
       redirect_to new_session_url, alert: 'authentication_failed'

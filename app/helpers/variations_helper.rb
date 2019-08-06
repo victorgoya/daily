@@ -21,4 +21,14 @@ module VariationsHelper
 
     @saved_this_month ||= cumulated_daily_budget - cumulated_daily_spendings
   end
+
+  def variations_for(recurring, range)
+    if !recurring && range == 'this-month'
+       @variations.where(recurring: false, base: true) + @variations.where(recurring: false, base: false).group_by(&:label).map do |label, variations|
+        Variation.new(label: label, value: variations.map(&:value).sum)
+      end
+    else
+      @variations.where(recurring: recurring)
+    end
+  end
 end

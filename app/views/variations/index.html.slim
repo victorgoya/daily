@@ -71,8 +71,8 @@
     - [true, false].each do |recurring|
       .content
         h5= recurring ? 'Recurring payments' : 'Spendings'
-        - if @variations.where(recurring: recurring).any?
-          - @variations.where(recurring: recurring).each do |variation|
+        - if variations_for(recurring, params[:range]).any?
+          - variations_for(recurring, params[:range]).sort_by(&:label).each do |variation|
             .level.variation-level.is-mobile
               .level-left
                 .level-item
