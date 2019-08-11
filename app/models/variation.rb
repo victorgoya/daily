@@ -1,5 +1,5 @@
 class Variation < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, touch: true
 
   validates :value, presence: true
   validates :label, presence: true
