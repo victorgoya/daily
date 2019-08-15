@@ -6,7 +6,7 @@ Daily helps you manage your monthly budget on a day-to-day basis. Set your maxiu
 
 ## Configuration
 
-You will need to fill up all this variables in `.env` file:
+You will need to fill up all this variables in a `.env` file:
 
 ```
 DATABASE_URL=postgres:///AAA
