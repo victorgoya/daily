@@ -2,6 +2,8 @@
 
 Daily helps you manage your monthly budget on a day-to-day basis. Set your maxium monthly budget, your fixed cost and it will tell you how much you can spend and how much you saved.
 
+[Try it there!](https://daily.phoqu.es)
+
 ![Screenshot](./screenshot.png)
 
 ## Configuration
