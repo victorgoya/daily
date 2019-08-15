@@ -1,24 +1,16 @@
-# README
+# Daily
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Daily helps you manage your monthly budget on a day-to-day basis. Set your maxium monthly budget, your fixed cost and it will tell you how much you can spend and how much you saved.
 
-Things you may want to cover:
+![Screenshot](./screenshot.png)
 
-* Ruby version
+## Configuration
 
-* System dependencies
+You will need to fill up all this variable in `.env` file:
 
-* Configuration
+```
+DATABASE_URL=postgres:///AAA
+GOOGLE_CLIENT_ID=BBB
+GOOGLE_CLIENT_SECRET=CCC
+```
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
