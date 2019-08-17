@@ -12,6 +12,14 @@ module VariationsHelper
     money.format(format: money.currency.to_s === "EUR" ? "%n %u" : "%u%n")
   end
 
+  def format_budget_value(value)
+    if value < 0
+      format_value(value.abs) + " overspent"
+    else
+      format_value(value) + " remaining"
+    end
+  end
+
   def saved_this_month
     return @saved_this_month if @saved_this_month
 
