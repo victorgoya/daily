@@ -17,20 +17,27 @@
               | Give it a short and meaningful name
             .control
               = f.text_field :label, placeholder: "Restaurant", class: 'input is-large is-info', required: true
-          - if params[:recurring] == 'false'
-            .content
-              .tags.are-large
-                - @current_user.variations.where(base: false, recurring: false).pluck(:label).uniq.each do |label|
-                  span.tag.is-info.is-link.is-medium= label
+              - if !f.object.recurring
+                datalist id="label-list"
+                  - @current_user.variations.where(recurring: false, base: false).pluck(:label).uniq.each do |label|
+                    option value=label
+
           .field
             label.label
-              - if params[:recurring] == 'true'
+              - if f.object.recurring?
                 | What amount is spend every month?
               - else
                 | What amount did you spent?
             .control
               = f.number_field :value, placeholder: "20", class: 'input is-large  is-info', required: true
             
+          - if !f.object.recurring?
+            .field
+              label.label
+                | Do you want to spread this spending on more than a day?
+              .control
+                .select.is-large.is-fullwidth
+                  = f.select :spread, spread_options_for(f.object).map { |duration, name| [name, duration] }
         footer.modal-card-foot
           .level.is-mobile
             .level-left

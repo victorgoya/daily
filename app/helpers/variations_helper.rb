@@ -39,4 +39,19 @@ module VariationsHelper
       @variations.where(recurring: recurring)
     end
   end
+
+  def spread_options_for(variation)
+    options = { 1 => "No, only today" }
+
+    date = (variation.created_at || DateTime.now).to_datetime
+    days_before_end_of_the_month = (date.end_of_month - date).to_i
+
+    if days_before_end_of_the_month > 7 # enough room for a week
+      options[7] = "For 7 days"
+    end
+
+    options[days_before_end_of_the_month] = "Until the end of the month"
+
+    options
+  end
 end

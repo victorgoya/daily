@@ -14,7 +14,7 @@ class VariationsController < ApplicationController
   end
 
   def create
-    variation = Variation.new(params.require(:variation).permit(:value, :user_id, :base, :recurring, :label))
+    variation = Variation.new(params.require(:variation).permit(:value, :user_id, :base, :recurring, :label, :spread))
     authorize variation
 
     if variation.save
@@ -31,7 +31,7 @@ class VariationsController < ApplicationController
 
   def update
     variation = Variation.find(params[:id])
-    variation.assign_attributes(params.require(:variation).permit(:value, :user_id, :base, :recurring, :label))
+    variation.assign_attributes(params.require(:variation).permit(:value, :user_id, :base, :recurring, :label, :spread))
     authorize variation
 
     if variation.save
