@@ -41,7 +41,7 @@ html
           .level-left#savings-summary
             .level-item
               .tags
-                - if saved_this_month > 0
+                - if saved_this_month >= 0
                   .tag.is-success
                     = "#{format_value(saved_this_month)} saved"
                 - else
