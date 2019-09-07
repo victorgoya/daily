@@ -23,10 +23,13 @@ module VariationsHelper
   def saved_this_month
     return @saved_this_month if @saved_this_month
 
-    remaining_monthly_budget = (@current_user.monthly_budget || 0) - @current_user.variations.from_this_month.where(recurring: true).map(&:monthly_value).sum
+    remaining_monthly_budget =
+      (@current_user.monthly_budget || 0) -
+      @current_user.variations.from_this_month.where(recurring: true).map(&:monthly_value).sum -
+      (@current_user.variations.from_this_month.find_by(base: true)&.monthly_value || 0)
     cumulated_daily_budget = remaining_monthly_budget / Time.zone.now.end_of_month.day * (Time.zone.now.day - 1)
     cumulated_daily_spendings = @current_user.variations.from_this_month
-      .where(recurring: false)
+      .where(recurring: false, base: false)
       .where("variations.created_at < ?", Time.zone.now.beginning_of_day)
       .map { |v| v.monthly_value_up_to_date(Time.zone.now.day) }.sum
 
