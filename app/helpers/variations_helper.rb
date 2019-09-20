@@ -31,7 +31,7 @@ module VariationsHelper
     cumulated_daily_spendings = @current_user.variations.from_this_month
       .where(recurring: false, base: false)
       .where("variations.created_at < ?", Time.zone.now.beginning_of_day)
-      .map { |v| v.monthly_value_up_to_date(Time.zone.now.day) }.sum
+      .map { |v| v.monthly_value_up_to_date(Time.zone.now.day - 1) }.sum
 
     @saved_this_month ||= cumulated_daily_budget - cumulated_daily_spendings
   end
@@ -49,9 +49,8 @@ module VariationsHelper
   def spread_options_for(variation)
     options = { 1 => "No, only today" }
 
-    date = (variation.created_at || DateTime.now).to_datetime
+    date = (variation.created_at || DateTime.zone.now).to_datetime
     days_before_end_of_the_month = (date.end_of_month - date).to_i
-
     if days_before_end_of_the_month > 7 # enough room for a week
       options[7] = "For 7 days"
     end
