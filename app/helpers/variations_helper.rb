@@ -4,7 +4,7 @@ module VariationsHelper
   end
 
   def current_daily_budget
-    current_daily_budget ||= @current_user.daily_budget - @variations.map(&:daily_value).sum
+    @current_daily_budget ||= @current_user.daily_budget - @variations.map(&:daily_value).sum
   end
 
   def format_value(value)
@@ -12,11 +12,11 @@ module VariationsHelper
     money.format(format: money.currency.to_s === "EUR" ? "%n %u" : "%u%n")
   end
 
-  def format_budget_value(value)
+  def format_budget_value(value, budget)
     if value < 0
-      format_value(value.abs) + " overspent"
+      format_value(value.abs) + " overspent over #{format_value(budget)}"
     else
-      format_value(value) + " remaining"
+      format_value(value) + " remaining over #{format_value(budget)}"
     end
   end
 

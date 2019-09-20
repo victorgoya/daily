@@ -64,10 +64,10 @@
     .tags.is-centered
       - if params[:range] == 'today'
         .tag class="is-large #{current_daily_budget < 0 && 'is-danger'}"
-          = format_budget_value(current_daily_budget)
+          = format_budget_value(current_daily_budget, @current_user.daily_budget)
       - else
         .tag class="is-large #{current_monthly_budget < 0 && 'is-danger'}"
-          = format_budget_value(current_monthly_budget)
+          = format_budget_value(current_monthly_budget, @current_user.monthly_budget)
     - [true, false].each do |recurring|
       .content
         h5= recurring ? 'Recurring payments' : 'Spendings'
