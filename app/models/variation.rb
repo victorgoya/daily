@@ -20,7 +20,7 @@ class Variation < ApplicationRecord
   end
 
   def monthly_value_up_to_date(day)
-    current_spread = day - created_at.day
+    current_spread = day - created_at.day + 1
     if current_spread > spread
       value
     else
