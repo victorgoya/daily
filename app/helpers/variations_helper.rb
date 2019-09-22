@@ -45,7 +45,7 @@ module VariationsHelper
     options = { 1 => "No, only today" }
 
     date = (variation.created_at || Time.zone.now).to_datetime
-    days_before_end_of_the_month = (date.end_of_month - date).to_i
+    days_before_end_of_the_month = (date.end_of_month - date).to_i + 1
     if days_before_end_of_the_month > 7 # enough room for a week
       options[7] = "For 7 days"
     end
