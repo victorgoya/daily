@@ -64,7 +64,7 @@
     .tags.is-centered
       - if params[:range] == 'today'
         .tag class="is-large #{current_daily_budget < 0 && 'is-danger'}"
-          = format_budget_value(current_daily_budget, @current_user.daily_budget)
+          = format_budget_value(current_daily_budget, @current_user.daily_budget(@date))
       - else
         .tag class="is-large #{current_monthly_budget < 0 && 'is-danger'}"
           = format_budget_value(current_monthly_budget, @current_user.monthly_budget)
@@ -81,18 +81,18 @@
                 .level-item
                   - if (params[:range] == 'this-month' && recurring) || (params[:range] == 'today' && !recurring) || variation.base?
                     a href=edit_variation_path(variation)
-                      strong= format_value(params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value)
+                      strong= format_value(params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value(@date))
                       span.icon
                         i.fas.fa-edit
                   - else
-                    strong= format_value(params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value)
+                    strong= format_value(params[:range] == 'this-month' ? variation.monthly_value : variation.daily_value(@date))
           .level.variation-level.is-total.is-mobile
             .level-left
               .level-item
                 = "Total"
             .level-right
               .level-item
-                strong= format_value(@variations.where(recurring: recurring).map { |v| params[:range] == 'this-month' ? v.monthly_value : v.daily_value }.sum)
+                strong= format_value(@variations.where(recurring: recurring).map { |v| params[:range] == 'this-month' ? v.monthly_value : v.daily_value(@date) }.sum)
         - else
           em None
                 

@@ -2,11 +2,12 @@ class VariationsController < ApplicationController
   before_action :redirect_to_default_range, only: [:index]
 
   def index
+    @date = params[:date] ? Time.zone.parse(params[:date]) : Time.zone.now
     @variations =
       if params[:range] == 'this-month'
-        @current_user.variations.from_this_month
+        @current_user.variations.from_this_month(@date)
       else
-        @current_user.variations.from_today
+        @current_user.variations.from_today(@date)
       end
   end
 

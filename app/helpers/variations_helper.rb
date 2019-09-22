@@ -4,7 +4,7 @@ module VariationsHelper
   end
 
   def current_daily_budget
-    @current_daily_budget ||= @current_user.daily_budget - @variations.map(&:daily_value).sum
+    @current_daily_budget ||= @current_user.daily_budget(@date) - @variations.map { |v| v.daily_value(@date) }.sum
   end
 
   def format_value(value)
@@ -21,19 +21,14 @@ module VariationsHelper
   end
 
   def saved_this_month
-    return @saved_this_month if @saved_this_month
-
-    remaining_monthly_budget =
-      (@current_user.monthly_budget || 0) -
-      @current_user.variations.from_this_month.where(recurring: true).map(&:monthly_value).sum -
-      (@current_user.variations.from_this_month.find_by(base: true)&.monthly_value || 0)
-    cumulated_daily_budget = remaining_monthly_budget.to_f / Time.zone.now.end_of_month.day * (Time.zone.now.day - 1)
-    cumulated_daily_spendings = @current_user.variations.from_this_month
-      .where(recurring: false, base: false)
-      .where("variations.created_at < ?", Time.zone.now.beginning_of_day)
-      .map { |v| v.monthly_value_up_to_date(Time.zone.now.day - 1) }.sum
-
-    @saved_this_month ||= cumulated_daily_budget - cumulated_daily_spendings
+    @saved_this_month ||=
+      if @date.day == 1
+        0
+      else
+        (1..(@date.day - 1)).map do |day|
+          @current_user.daily_budget(@date - day.days) - @current_user.variations.from_today(@date - day.days).map { |v| v.daily_value(@date - day.days) }.sum
+        end.sum
+      end
   end
 
   def variations_for(recurring, range)

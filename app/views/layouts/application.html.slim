@@ -40,13 +40,14 @@ html
                   | DAILY
           .level-left#savings-summary
             .level-item
-              .tags
-                - if saved_this_month >= 0
-                  .tag.is-success
-                    = "#{format_value(saved_this_month)} saved"
-                - else
-                  .tag.is-danger
-                    = "#{format_value(saved_this_month.abs)} overspent"
+              - if @date.present?
+                .tags
+                  - if saved_this_month >= 0
+                    .tag.is-success
+                      = "#{format_value(saved_this_month)} saved"
+                  - else
+                    .tag.is-danger
+                      = "#{format_value(saved_this_month.abs)} overspent"
           .level-right
             .level-item
               = link_to edit_user_path(@current_user), class: 'button is-rounded' do

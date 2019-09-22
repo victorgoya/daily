@@ -4,12 +4,12 @@ class Variation < ApplicationRecord
   validates :value, presence: true
   validates :label, presence: true
 
-  scope :from_today, -> { where("(variations.created_at + (variations.spread - 1) * interval '1 day' > ? OR variations.recurring = ?) AND variations.base = ?", Time.zone.now.beginning_of_day, true, false) }
-  scope :from_this_month, -> { where("variations.created_at > ? OR variations.recurring = ?", Time.zone.now.beginning_of_month, true) }
+  scope :from_today, -> (date) { where("((? < variations.created_at + variations.spread * interval '1 day' AND ? > variations.created_at) OR variations.recurring = ?) AND variations.base = ?", date.beginning_of_day, date.beginning_of_day, true, false) }
+  scope :from_this_month, -> (date) { where("variations.created_at > ? OR variations.recurring = ?", date.beginning_of_month, true) }
 
-  def daily_value
+  def daily_value(date)
     if self.recurring?
-      value / Time.zone.now.end_of_month.day
+      value / date.end_of_month.day
     else
       value.to_f / spread
     end
@@ -19,12 +19,12 @@ class Variation < ApplicationRecord
     value
   end
 
-  def monthly_value_up_to_date(day)
-    current_spread = day - created_at.day + 1
+  def monthly_value_up_to_date(date)
+    current_spread = date.day - created_at.day + 1
     if current_spread > spread
       value
     else
-      daily_value * current_spread
+      daily_value(date) * current_spread
     end
   end
 end
