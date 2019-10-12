@@ -4,7 +4,7 @@ module VariationsHelper
   end
 
   def current_daily_budget
-    @current_daily_budget ||= @current_user.daily_budget(@date) - @variations.map { |v| v.daily_value(@date) }.sum
+    @current_daily_budget ||= @current_user.daily_budget(@date) - @current_user.variations.from_today(@date).map { |v| v.daily_value(@date) }.sum
   end
 
   def effective_daily_budget
