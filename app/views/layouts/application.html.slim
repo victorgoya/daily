@@ -42,12 +42,12 @@ html
             .level-item
               - if @date.present?
                 .tags
-                  - if saved_this_month >= 0
+                  - if (saved_this_month - overspent_daily_budget) >= 0
                     .tag.is-success
-                      = "#{format_value(saved_this_month)} saved"
+                      = "#{format_value(saved_this_month - overspent_daily_budget)} saved"
                   - else
                     .tag.is-danger
-                      = "#{format_value(saved_this_month.abs)} overspent"
+                      = "#{format_value((saved_this_month - overspent_daily_budget).abs)} overspent"
           .level-right
             .level-item
               = link_to edit_user_path(@current_user), class: 'button is-rounded' do

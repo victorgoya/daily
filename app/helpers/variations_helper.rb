@@ -7,6 +7,16 @@ module VariationsHelper
     @current_daily_budget ||= @current_user.daily_budget(@date) - @variations.map { |v| v.daily_value(@date) }.sum
   end
 
+  def effective_daily_budget
+    if current_daily_budget > 0
+      current_daily_budget
+    elsif saved_this_month < 0
+      overspent_daily_budget - saved_this_month
+    else
+      0
+    end
+  end
+
   def format_value(value)
     money = Money.new(value * 100, @current_user.currency)
     money.format(format: money.currency.to_s === "EUR" ? "%n %u" : "%u%n")
@@ -29,6 +39,10 @@ module VariationsHelper
           @current_user.daily_budget(@date - day.days) - @current_user.variations.from_today(@date - day.days).map { |v| v.daily_value(@date - day.days) }.sum
         end.sum
       end
+  end
+
+  def overspent_daily_budget
+    (current_daily_budget < 0 ? current_daily_budget.abs : 0)
   end
 
   def variations_for(recurring, range)
