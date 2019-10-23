@@ -11,7 +11,7 @@ module VariationsHelper
     if current_daily_budget > 0
       current_daily_budget
     elsif saved_this_month < 0
-      overspent_daily_budget - saved_this_month
+      0
     else
       0
     end
