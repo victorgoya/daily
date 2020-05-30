@@ -58,7 +58,7 @@
   .tabs.is-centered.is-medium
     ul
       = active_link_to "Today", variations_range_path(range: "today"), class_active: 'is-active', wrap_tag: :li
-      = active_link_to Time.zone.now.strftime("%B"), variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
+      = active_link_to @date.strftime("%B"), variations_range_path(range: "this-month"), class_active: 'is-active', wrap_tag: :li
 
   .container
     .tags.is-centered
@@ -95,7 +95,7 @@
                 strong= format_value(@variations.where(recurring: recurring).map { |v| params[:range] == 'this-month' ? v.monthly_value : v.daily_value(@date) }.sum)
         - else
           em None
-                
+
     .content.has-text-centered#add-button-container
       - if params[:range] == 'today'
         = link_to new_variation_url(recurring: false), class: 'button is-info is-medium' do

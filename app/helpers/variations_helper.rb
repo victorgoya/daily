@@ -56,16 +56,27 @@ module VariationsHelper
   end
 
   def spread_options_for(variation)
-    options = { 1 => "No, only today" }
+    if variation.recurring?
+      {
+        nil => "Until I remove it",
+        2 => "Two months",
+        3 => "Three months",
+        4 => "Four months",
+        5 => "Five months",
+        6 => "Six months",
+      }
+    else
+      options = { 1 => "No, only today" }
 
-    date = (variation.created_at || Time.zone.now).to_datetime
-    days_before_end_of_the_month = (date.end_of_month - date).to_i + 1
-    if days_before_end_of_the_month > 7 # enough room for a week
-      options[7] = "For 7 days"
+      date = (variation.created_at || Time.zone.now).to_datetime
+      days_before_end_of_the_month = (date.end_of_month - date).to_i + 1
+      if days_before_end_of_the_month > 7 # enough room for a week
+        options[7] = "For 7 days"
+      end
+
+      options[days_before_end_of_the_month] = "Until the end of the month"
+
+      options
     end
-
-    options[days_before_end_of_the_month] = "Until the end of the month"
-
-    options
   end
 end
