@@ -15,7 +15,12 @@ class Variation < ApplicationRecord
   scope :from_this_month, -> (date) {
     where(%{
       variations.created_at > ? OR
-      (variations.recurring = ? AND ? < date_trunc('MONTH', variations.created_at)::DATE + variations.spread * interval '1 month')
+      (
+        variations.recurring = ? AND (
+          variations.spread = 1 OR
+          ? < date_trunc('MONTH', variations.created_at)::DATE + variations.spread * interval '1 month'
+        )
+      )
     }, date.beginning_of_month, true, date.beginning_of_month)
   }
 

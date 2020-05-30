@@ -58,7 +58,7 @@ module VariationsHelper
   def spread_options_for(variation)
     if variation.recurring?
       {
-        nil => "Until I remove it",
+        1 => "Until I remove it",
         2 => "Two months",
         3 => "Three months",
         4 => "Four months",
