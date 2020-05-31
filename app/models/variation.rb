@@ -8,7 +8,12 @@ class Variation < ApplicationRecord
     where(%{
       (
         (? < variations.created_at + variations.spread * interval '1 day' AND ? > variations.created_at) OR
-        (variations.recurring = ? AND ? < date_trunc('MONTH', variations.created_at)::DATE + variations.spread * interval '1 month')
+        (
+          variations.recurring = ? AND (
+              variations.spread = 1 OR
+              ? < date_trunc('MONTH', variations.created_at)::DATE + variations.spread * interval '1 month'
+            )
+        )
       ) AND variations.base = ?
     }, date.end_of_day, date.end_of_day, true, date.beginning_of_month, false)
   }
